@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
+  const navigate = useNavigate();
   const isloggedIn = localStorage.getItem("IsloggenIn");
   const [time, setTime] = useState(new Date());
   useEffect(() => {
@@ -12,6 +14,7 @@ const NavBar = () => {
   }, []);
   const handleSignout = () => {
     localStorage.setItem("IsloggenIn", false);
+    navigate("/");
   };
   const formattedTime = time.toLocaleTimeString();
   return (
