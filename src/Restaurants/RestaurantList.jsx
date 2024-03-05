@@ -53,10 +53,10 @@ const RestaurantList = () => {
   };
 
   return (
-    <div className="bg-black overflow-auto h-dvh">
+    <div className="bg-black min-h-screen border-2 border-red-700">
       <NavBar />
       <section className="w-full h-full flex justify-center">
-        <div className="w-[80%] px-3 py-16 h-fit">
+        <div className="w-[80%] px-3 py-16 h-full">
           <div className="flex gap-3 my-3">
             <div>
               <Input
