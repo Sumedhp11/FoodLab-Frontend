@@ -18,7 +18,7 @@ const NavBar = () => {
   };
   const formattedTime = time.toLocaleTimeString();
   return (
-    <div className="flex items-center border rounded px-2 py-2 justify-between">
+    <div className="flex bg-green-700 items-center border rounded px-2 py-2 justify-between">
       <div className="flex items-center gap-3">
         <div className="w-24">
           <img
