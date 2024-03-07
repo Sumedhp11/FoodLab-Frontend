@@ -14,11 +14,18 @@ export const getAllRestaurants = async ({ page = 0, search = "" }) => {
   }
 };
 
-export const getResMenu = async (resId) => {
+export const getResMenu = async ({ resId, searchQuery = "", page = 0 }) => {
   try {
-    const res = await fetch(
-      `${import.meta.env.VITE_APP_URL_API}/restaurants/menu?resId=${resId}`
-    );
+    let url = `${
+      import.meta.env.VITE_APP_URL_API
+    }/restaurants/menu?resId=${resId}&page=${page}`;
+
+    // Append search query to the URL if provided
+    if (searchQuery) {
+      url += `&search=${searchQuery}`;
+    }
+
+    const res = await fetch(url);
     const data = await res.json();
     return data?.data;
   } catch (error) {

@@ -79,7 +79,7 @@ const RestaurantList = () => {
                       <Link to={"/menu/" + restaurant?.id}>
                         <Card className="h-full shadow-2xl border-[0.8px] border-gray-600">
                           <CardHeader>
-                            <CardTitle className="whitespace-nowrap overflow-hidden overflow-ellipsis">
+                            <CardTitle className="whitespace-nowrap overflow-hidden overflow-ellipsis py-2">
                               {restaurant?.name}
                             </CardTitle>
                           </CardHeader>

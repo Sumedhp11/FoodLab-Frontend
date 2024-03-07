@@ -1,24 +1,61 @@
+import { useEffect, useMemo, useState } from "react";
 import NavBar from "@/components/NavBar";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { getResMenu } from "./RestaurantsAPI";
 import Loader from "@/loader";
 import { Input } from "@/components/ui/input";
 import vegIcon from "@/assets/veg-icon.png";
 import nonvegIcon from "@/assets/non-veg icon.png";
+import { useInView } from "react-intersection-observer";
+import { debounce } from "lodash";
 
 const ResMenu = () => {
   const { resId } = useParams();
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: Resmenu, isLoading } = useQuery({
-    queryKey: ["Resmenu"],
-    queryFn: () => getResMenu(resId),
-  });
-  const ResDetails = Resmenu?.ResDetails;
-  const ResMenu = Resmenu?.Menu;
+  const { data, isLoading, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["resMenu", resId, searchQuery],
+      queryFn: ({ pageParam = 0, queryKey }) =>
+        getResMenu({ page: pageParam, search: queryKey[1] }),
+
+      getNextPageParam: (lastPage) => {
+        console.log(lastPage);
+        if (lastPage.totalPages > lastPage.currentPage) {
+          return lastPage.currentPage + 1;
+        } else {
+          return null;
+        }
+      },
+    });
+
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, isFetchingNextPage, fetchNextPage]);
+
+  const debouncedFetchResMenu = useMemo(
+    () =>
+      debounce((query) => {
+        setSearchQuery(query);
+      }, 500),
+    []
+  );
+  const ResDetails = data?.ResDetails;
+  const ResMenu = data?.Menu;
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    debouncedFetchResMenu(query);
+  };
 
   return (
-    <div className=" min-h-screen ">
+    <div className="min-h-screen">
       <NavBar />
       {isLoading ? (
         <Loader />
@@ -84,8 +121,10 @@ const ResMenu = () => {
             </div>
             <div className="w-1/3">
               <Input
+                value={searchQuery}
                 className="font-medium border-[0.8px] border-gray-600 w-[70%]"
                 placeholder="Search Dishes"
+                onChange={handleSearchChange}
               />
             </div>
             <div className="w-full">
@@ -122,6 +161,7 @@ const ResMenu = () => {
                     </div>
                   </div>
                 ))}
+                <div ref={ref}></div>
               </div>
             </div>
           </div>
