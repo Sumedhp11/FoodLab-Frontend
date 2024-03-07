@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
-import { Button } from "./ui/button";
-import { useNavigate } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { AlignJustify, LogOut, ShoppingBasket, Store } from "lucide-react";
+import { Badge } from "./ui/badge";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -21,11 +31,13 @@ const NavBar = () => {
     <div className="flex bg-green-700 items-center border rounded px-2 py-2 justify-between">
       <div className="flex items-center gap-3">
         <div className="w-24">
-          <img
-            className="w-full rounded-full"
-            src="https://static.vecteezy.com/system/resources/previews/021/620/229/original/cute-burger-cartoon-icon-illustration-delicious-cheeseburger-food-icon-concept-illustration-suitable-for-icon-logo-sticker-clipart-free-vector.jpg"
-            alt=""
-          />
+          <Link to={"/restaurants"}>
+            <img
+              className="w-full rounded-full"
+              src="https://static.vecteezy.com/system/resources/previews/021/620/229/original/cute-burger-cartoon-icon-illustration-delicious-cheeseburger-food-icon-concept-illustration-suitable-for-icon-logo-sticker-clipart-free-vector.jpg"
+              alt=""
+            />
+          </Link>
         </div>
         <div>
           <h1 className="text-xl font-medium text-white">Welcome Foodie!</h1>
@@ -34,12 +46,45 @@ const NavBar = () => {
       <div className="flex items-center gap-3">
         <h2 className="text-white font-medium">{formattedTime}</h2>
         {isloggedIn === "true" ? (
-          <Button
-            onClick={handleSignout}
-            className="bg-white text-black hover:bg-slate-300"
-          >
-            Sign out
-          </Button>
+          <>
+            <Link to={"/cart"}>
+              <div className="relative py-3">
+                <ShoppingBasket size={30} color="white" />
+                <Badge className="absolute -top-3 bg-black text-white ">
+                  2
+                </Badge>
+              </div>
+            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <div className="w-fit  flex items-center">
+                  <AlignJustify size={25} color="white" />
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-48 mx-3 bg-green-700">
+                <DropdownMenuGroup>
+                  <Link to={"/orders"}>
+                    <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
+                      <span className="font-medium text-base text-white">
+                        Your Orders
+                      </span>
+                      <Store size={25} color="white" />
+                    </DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleSignout}
+                    className="flex items-center justify-between cursor-pointer hover:bg-green-700"
+                  >
+                    <span className="font-medium text-base text-white">
+                      Logout
+                    </span>
+                    <LogOut size={25} color="white" />
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </>
         ) : null}
       </div>
     </div>

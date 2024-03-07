@@ -21,7 +21,6 @@ const RestaurantList = () => {
     queryKey: ["restaurants", searchQuery],
     queryFn: ({ pageParam = 0, queryKey }) =>
       getAllRestaurants({ page: pageParam, search: queryKey[1] }),
-
     getNextPageParam: (lastPage) => {
       if (lastPage.totalPages > lastPage.currentPage) {
         return lastPage.currentPage + 1;

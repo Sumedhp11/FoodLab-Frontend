@@ -5,8 +5,9 @@ import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import RestaurantList from "./Restaurants/RestaurantList";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import ResMenu from "./Restaurants/ResMenu";
+
 import AuthProvider from "./AuthProvider";
+import ResMenuPage from "./Restaurants/ResMenuPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -30,7 +31,7 @@ function App() {
       path: "/menu/:resId",
       element: (
         <AuthProvider>
-          <ResMenu />
+          <ResMenuPage />
         </AuthProvider>
       ),
     },
