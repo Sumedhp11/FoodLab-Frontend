@@ -11,8 +11,11 @@ import {
 } from "./ui/dropdown-menu";
 import { AlignJustify, LogOut, ShoppingBasket, Store } from "lucide-react";
 import { Badge } from "./ui/badge";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCartById } from "@/cart/cartAPI";
 
 const NavBar = () => {
+  const userId = localStorage.getItem("UserId");
   const navigate = useNavigate();
   const isloggedIn = localStorage.getItem("IsloggenIn");
   const [time, setTime] = useState(new Date());
@@ -24,8 +27,15 @@ const NavBar = () => {
   }, []);
   const handleSignout = () => {
     localStorage.setItem("IsloggenIn", false);
+    localStorage.setItem("UserId", null);
     navigate("/");
   };
+
+  const { data } = useQuery({
+    queryKey: ["cartcount"],
+    queryFn: () => fetchCartById({ userId: userId }),
+  });
+
   const formattedTime = time.toLocaleTimeString();
   return (
     <div className="flex bg-green-700 items-center border rounded px-2 py-2 justify-between">
@@ -51,7 +61,7 @@ const NavBar = () => {
               <div className="relative py-3">
                 <ShoppingBasket size={30} color="white" />
                 <Badge className="absolute -top-3 bg-black text-white ">
-                  2
+                  {data?.data?.cartItems?.length}
                 </Badge>
               </div>
             </Link>

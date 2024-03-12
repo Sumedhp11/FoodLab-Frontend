@@ -8,6 +8,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import AuthProvider from "./AuthProvider";
 import ResMenuPage from "./Restaurants/ResMenuPage";
+import Cart from "./cart/Cart";
+import Congratspage from "./components/Congrats";
 
 function App() {
   const router = createBrowserRouter([
@@ -32,6 +34,22 @@ function App() {
       element: (
         <AuthProvider>
           <ResMenuPage />
+        </AuthProvider>
+      ),
+    },
+    {
+      path: "/cart",
+      element: (
+        <AuthProvider>
+          <Cart />
+        </AuthProvider>
+      ),
+    },
+    {
+      path: "/congrats",
+      element: (
+        <AuthProvider>
+          <Congratspage />
         </AuthProvider>
       ),
     },

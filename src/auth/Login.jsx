@@ -32,7 +32,7 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const { mutate, isLoading, error } = useMutation({
+  const { mutate, isPending, error } = useMutation({
     mutationFn: loginAPI,
     onSuccess: (data) => {
       toast({
@@ -40,8 +40,8 @@ const Login = () => {
       });
       form.reset();
       localStorage.setItem("IsloggenIn", true);
+      localStorage.setItem("UserId", data?.data[0]?._id);
       navigate("/restaurants");
-      console.log(data);
     },
     onError: () => {
       toast({
@@ -140,9 +140,9 @@ const Login = () => {
                     <Button
                       type="submit"
                       className="bg-black"
-                      disabled={isLoading}
+                      disabled={isPending}
                     >
-                      {isLoading ? "Loading..." : "Sign In"}
+                      {isPending ? "Signing In..." : "Sign In"}
                     </Button>
                     <div className="font-normal text-base">
                       <span>New Here?</span>
