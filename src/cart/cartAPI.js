@@ -33,7 +33,7 @@ export const checkout = async ({
   cartItems,
 }) => {
   try {
-    const res = await fetch(`http://localhost:8080/checkout`, {
+    const res = await fetch(`${import.meta.env.VITE_APP_URL_API}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

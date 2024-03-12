@@ -91,7 +91,7 @@ const Cart = () => {
         image:
           "https://static.vecteezy.com/system/resources/previews/021/620/229/original/cute-burger-cartoon-icon-illustration-delicious-cheeseburger-food-icon-concept-illustration-suitable-for-icon-logo-sticker-clipart-free-vector.jpg",
         order_id: data.data.id,
-        callback_url: "http://localhost:8080/paymentverification",
+        callback_url: `${import.meta.env.VITE_APP_URL_API}/paymentverification`,
         prefill: {
           name: cart?.data?.user?.name,
           email: cart?.data?.user?.email,
