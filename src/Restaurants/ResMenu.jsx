@@ -72,13 +72,11 @@ const ResMenu = ({ resId }) => {
   };
 
   const handleIncrement = (dishId) => {
-    console.log(cartItems);
-    const updatedCartItems = cartItems?.cartitems.map((item) =>
+    const updatedCartItems = cartItems?.cartItems.map((item) =>
       item.dish._id === dishId ? { ...item, quantity: item.quantity + 1 } : item
     );
 
     setCartItems(updatedCartItems);
-    console.log(updatedCartItems);
 
     const updatedCartItem = updatedCartItems.find(
       (item) => item.dish._id === dishId
@@ -90,7 +88,7 @@ const ResMenu = ({ resId }) => {
   };
 
   const handleDecrement = (dishId) => {
-    const updatedCartItems = cartItems?.cartitems.map((item) =>
+    const updatedCartItems = cartItems?.cartItems.map((item) =>
       item.dish._id === dishId
         ? { ...item, quantity: Math.max(item.quantity - 1, 0) }
         : item
@@ -122,7 +120,7 @@ const ResMenu = ({ resId }) => {
           {isLoading && <Loader />}
           {data?.pages.map((page) =>
             page.menu.map((dish) => {
-              const cartItem = cartItems?.cartitems?.find((item) => {
+              const cartItem = cartItems?.cartItems?.find((item) => {
                 return item?.dish?._id === dish?._id;
               });
 
