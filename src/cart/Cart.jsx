@@ -153,7 +153,9 @@ const Cart = () => {
     };
     addnewAddressFn({ addressData: addressDataWithUserId });
   };
-
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div className="min-h-screen">
       <NavBar />
