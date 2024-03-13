@@ -10,6 +10,7 @@ import AuthProvider from "./AuthProvider";
 import ResMenuPage from "./Restaurants/ResMenuPage";
 import Cart from "./cart/Cart";
 import Congratspage from "./components/Congrats";
+import OrderPage from "./orders/OrderPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -42,6 +43,14 @@ function App() {
       element: (
         <AuthProvider>
           <Cart />
+        </AuthProvider>
+      ),
+    },
+    {
+      path: "/orders",
+      element: (
+        <AuthProvider>
+          <OrderPage />
         </AuthProvider>
       ),
     },

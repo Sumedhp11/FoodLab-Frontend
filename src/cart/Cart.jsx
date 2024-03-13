@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const queryClient = useQueryClient();
@@ -156,190 +157,204 @@ const Cart = () => {
   return (
     <div className="min-h-screen">
       <NavBar />
-      <section className="py-4 flex justify-center space-x-10">
-        <div className="flex flex-col w-[60%] space-y-4 py-5 shadow-2xl rounded-lg h-fit">
-          <div className="px-3">
-            <h1 className="px-3 text-lg font-semibold">Checkout Form</h1>
-          </div>
-          {cart?.data?.user?.addresses.length >= 1 ? (
-            <div className="flex gap-4 w-full border px-3 py-2">
-              <div className="px-3">
-                <h2 className="text-lg font-semibold">Select Address:</h2>
-                <div className="py-4 border space-y-8">
-                  <RadioGroup
-                    className="space-y-7"
-                    onValueChange={handleSelectAddress}
-                  >
-                    {cart?.data?.user?.addresses.map((address) => (
-                      <div
-                        className="flex items-center space-x-2 "
-                        key={address.id}
-                      >
-                        <RadioGroupItem id={address.id} value={address.id} />
-                        <Label htmlFor={address.id} className="text-base">
-                          {`${address.flatno}, ${address.streetName}, ${address.landmark}, ${address.city}, ${address.state}, ${address.pincode}`}
-                        </Label>
-                      </div>
-                    ))}
-                  </RadioGroup>
+      {cartItems?.length >= 1 ? (
+        <section className="py-4 flex justify-center space-x-10">
+          <div className="flex flex-col w-[60%] space-y-4 py-5 shadow-2xl rounded-lg h-fit">
+            <div className="px-3">
+              <h1 className="px-3 text-lg font-semibold">Checkout Form</h1>
+            </div>
+            {cart?.data?.user?.addresses.length >= 1 ? (
+              <div className="flex gap-4 w-full border px-3 py-2">
+                <div className="px-3">
+                  <h2 className="text-lg font-semibold">Select Address:</h2>
+                  <div className="py-4 border space-y-8">
+                    <RadioGroup
+                      className="space-y-7"
+                      onValueChange={handleSelectAddress}
+                    >
+                      {cart?.data?.user?.addresses.map((address) => (
+                        <div
+                          className="flex items-center space-x-2 "
+                          key={address.id}
+                        >
+                          <RadioGroupItem id={address.id} value={address.id} />
+                          <Label htmlFor={address.id} className="text-base">
+                            {`${address.flatno}, ${address.streetName}, ${address.landmark}, ${address.city}, ${address.state}, ${address.pincode}`}
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : null}
-          <>
-            <div className="px-3">
-              <h1 className="px-3 text-lg font-semibold">Add New Address:</h1>
-            </div>
-            <div className="flex gap-4 w-full border px-3">
-              <div className="w-1/2 px-3">
-                <Label className="text-nowrap font-medium text-base">
-                  Flat or Apartment No:
-                </Label>
-                <Input
-                  name="flatno"
-                  value={newAddress.flatno}
-                  className="text-lg border border-gray-800 w-full"
-                  onChange={handleInputChange}
-                />
+            ) : null}
+            <>
+              <div className="px-3">
+                <h1 className="px-3 text-lg font-semibold">Add New Address:</h1>
               </div>
-              <div className="w-1/2 px-3">
-                <Label className="text-nowrap font-medium text-base">
-                  LandMark:
-                </Label>
-                <Input
-                  value={newAddress.landmark}
-                  name="landmark"
-                  className="text-lg border border-gray-800 w-full"
-                  onChange={handleInputChange}
-                />
+              <div className="flex gap-4 w-full border px-3">
+                <div className="w-1/2 px-3">
+                  <Label className="text-nowrap font-medium text-base">
+                    Flat or Apartment No:
+                  </Label>
+                  <Input
+                    name="flatno"
+                    value={newAddress.flatno}
+                    className="text-lg border border-gray-800 w-full"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="w-1/2 px-3">
+                  <Label className="text-nowrap font-medium text-base">
+                    LandMark:
+                  </Label>
+                  <Input
+                    value={newAddress.landmark}
+                    name="landmark"
+                    className="text-lg border border-gray-800 w-full"
+                    onChange={handleInputChange}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="flex gap-4 w-full border px-3">
-              <div className="w-1/2 px-3">
-                <Label className="text-nowrap font-medium text-base">
-                  Street Name:
-                </Label>
-                <Input
-                  value={newAddress.streetName}
-                  name="streetName"
-                  className="text-lg border border-gray-800 w-full"
-                  onChange={handleInputChange}
-                />
+              <div className="flex gap-4 w-full border px-3">
+                <div className="w-1/2 px-3">
+                  <Label className="text-nowrap font-medium text-base">
+                    Street Name:
+                  </Label>
+                  <Input
+                    value={newAddress.streetName}
+                    name="streetName"
+                    className="text-lg border border-gray-800 w-full"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="w-1/2 px-3">
+                  <Label className="text-nowrap font-medium text-base">
+                    City:
+                  </Label>
+                  <Input
+                    value={newAddress.city}
+                    name="city"
+                    className="text-lg border border-gray-800 w-full"
+                    onChange={handleInputChange}
+                  />
+                </div>
               </div>
-              <div className="w-1/2 px-3">
-                <Label className="text-nowrap font-medium text-base">
-                  City:
-                </Label>
-                <Input
-                  value={newAddress.city}
-                  name="city"
-                  className="text-lg border border-gray-800 w-full"
-                  onChange={handleInputChange}
-                />
+              <div className="flex gap-4 w-full border px-3">
+                <div className="w-1/2 px-3">
+                  <Label className="text-nowrap font-medium text-base">
+                    State:
+                  </Label>
+                  <Input
+                    value={newAddress.state}
+                    name="state"
+                    className="text-lg border border-gray-800 w-full"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="w-1/2 px-3">
+                  <Label className="text-nowrap font-medium text-base">
+                    Pincode:
+                  </Label>
+                  <Input
+                    value={newAddress.pincode}
+                    name="pincode"
+                    className="text-lg border border-gray-800 w-full"
+                    onChange={handleInputChange}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="flex gap-4 w-full border px-3">
-              <div className="w-1/2 px-3">
-                <Label className="text-nowrap font-medium text-base">
-                  State:
-                </Label>
-                <Input
-                  value={newAddress.state}
-                  name="state"
-                  className="text-lg border border-gray-800 w-full"
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="w-1/2 px-3">
-                <Label className="text-nowrap font-medium text-base">
-                  Pincode:
-                </Label>
-                <Input
-                  value={newAddress.pincode}
-                  name="pincode"
-                  className="text-lg border border-gray-800 w-full"
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>
-          </>
+            </>
 
-          <div className="flex gap-4 w-full border px-3">
-            <div className="w-1/2 px-3">
+            <div className="flex gap-4 w-full border px-3">
+              <div className="w-1/2 px-3">
+                <Button
+                  className="bg-green-700 hover:bg-green-900"
+                  onClick={handleAddnewAddress}
+                >
+                  Add Address
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex-col px-3 py-3  w-[20%] space-y-5 h-fit rounded-md shadow-2xl">
+            {isLoading ? (
+              <Loader />
+            ) : (
+              cartItems?.map((item) => (
+                <div
+                  key={item.dish._id}
+                  className="border-[0.8px] border-gray-600 flex justify-between shadow-2xl py-2 rounded-lg w-full px-3 "
+                >
+                  <div className="justify-start w-1/2 px-2 space-y-2">
+                    <p className="font-medium text-lg">{item.dish.name}</p>
+
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">
+                        {item.dish.isVeg ? "Veg" : "Non-Veg"}
+                      </span>
+                      <span className="w-6 h-6 rounded-full">
+                        <img
+                          src={item.dish.isVeg ? vegIcon : nonvegIcon}
+                          alt=""
+                        />
+                      </span>
+                    </div>
+                    <p className="font-medium">₹ {item.dish.mrp / 100} </p>
+                  </div>
+                  <div className="h-32 w-32 relative">
+                    <img
+                      className="object-cover h-full w-full"
+                      src={import.meta.env.VITE_APP_IMAGE_URL + item.dish.image}
+                      alt="res-logo"
+                    />
+                    <div className="absolute bottom-0 bg-green-700 w-full flex justify-between font-normal rounded-md cursor-pointer text-white">
+                      <button onClick={() => handleDecrement(item.dish._id)}>
+                        <Minus />
+                      </button>
+                      <span className="mx-2">{item.quantity}</span>
+                      <button onClick={() => handleIncrement(item.dish._id)}>
+                        <Plus />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+            <div className="border-[0.8px] border-gray-600 flex justify-between shadow-2xl py-2 rounded-lg w-full px-3 ">
+              <h4>Total : </h4>
+              <h4>₹ {cart?.data?.totalPrice}</h4>
+            </div>
+            <div className="  shadow-2xl py-2 rounded-lg w-full  ">
               <Button
-                className="bg-green-700 hover:bg-green-900"
-                onClick={handleAddnewAddress}
+                className="bg-green-700 w-full hover:bg-green-800"
+                onClick={handleCheckout}
               >
-                Add Address
+                {isPending ? (
+                  <span>
+                    <Loader />
+                  </span>
+                ) : (
+                  <span>Checkout and Pay</span>
+                )}
               </Button>
             </div>
           </div>
-        </div>
-
-        <div className="flex-col px-3 py-3  w-[20%] space-y-5 h-fit rounded-md shadow-2xl">
-          {isLoading ? (
-            <Loader />
-          ) : (
-            cartItems?.map((item) => (
-              <div
-                key={item.dish._id}
-                className="border-[0.8px] border-gray-600 flex justify-between shadow-2xl py-2 rounded-lg w-full px-3 "
-              >
-                <div className="justify-start w-1/2 px-2 space-y-2">
-                  <p className="font-medium text-lg">{item.dish.name}</p>
-
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium">
-                      {item.dish.isVeg ? "Veg" : "Non-Veg"}
-                    </span>
-                    <span className="w-6 h-6 rounded-full">
-                      <img
-                        src={item.dish.isVeg ? vegIcon : nonvegIcon}
-                        alt=""
-                      />
-                    </span>
-                  </div>
-                  <p className="font-medium">₹ {item.dish.mrp / 100} </p>
-                </div>
-                <div className="h-32 w-32 relative">
-                  <img
-                    className="object-cover h-full w-full"
-                    src={import.meta.env.VITE_APP_IMAGE_URL + item.dish.image}
-                    alt="res-logo"
-                  />
-                  <div className="absolute bottom-0 bg-green-700 w-full flex justify-between font-normal rounded-md cursor-pointer text-white">
-                    <button onClick={() => handleDecrement(item.dish._id)}>
-                      <Minus />
-                    </button>
-                    <span className="mx-2">{item.quantity}</span>
-                    <button onClick={() => handleIncrement(item.dish._id)}>
-                      <Plus />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
-          <div className="border-[0.8px] border-gray-600 flex justify-between shadow-2xl py-2 rounded-lg w-full px-3 ">
-            <h4>Total : </h4>
-            <h4>₹ {cart?.data?.totalPrice}</h4>
+        </section>
+      ) : (
+        <section className="py-4 flex justify-center ">
+          <div className="flex flex-col justify-center items-center w-[50%] ">
+            <h1 className="font-medium text-2xl my-12">Your Cart is Empty</h1>
+            <Link to={"/restaurants"}>
+              {" "}
+              <Button className="bg-green-700 hover:bg-green-900 w-[100%]">
+                Browse Restaurants
+              </Button>
+            </Link>
           </div>
-          <div className="  shadow-2xl py-2 rounded-lg w-full  ">
-            <Button
-              className="bg-green-700 w-full hover:bg-green-800"
-              onClick={handleCheckout}
-            >
-              {isPending ? (
-                <span>
-                  <Loader />
-                </span>
-              ) : (
-                <span>Checkout and Pay</span>
-              )}
-            </Button>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 };
