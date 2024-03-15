@@ -1,16 +1,21 @@
 import { useState, useEffect, useMemo } from "react";
 import NavBar from "@/components/NavBar";
 import { useInView } from "react-intersection-observer";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { getAllRestaurants } from "./RestaurantsAPI";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { getAllRestaurants, toggleIsFav } from "./RestaurantsAPI";
 import Loader from "@/loader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Timer } from "lucide-react";
+import { Heart, Timer } from "lucide-react";
 import { debounce } from "lodash";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 
 const RestaurantList = () => {
+  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
   const {
     data: restaurants,
@@ -51,7 +56,16 @@ const RestaurantList = () => {
     setSearchQuery(query);
     debouncedFetchRestaurants(query);
   };
+  const { mutate } = useMutation({
+    mutationFn: toggleIsFav,
+    onSuccess: () => {
+      queryClient.invalidateQueries("restaurants");
+    },
+  });
 
+  const handleFavRes = (resId) => {
+    mutate({ resId: resId });
+  };
   return (
     <div className=" min-h-screen ">
       <NavBar />
@@ -75,13 +89,38 @@ const RestaurantList = () => {
                 page?.restaurants?.map((restaurant) => {
                   return (
                     <div key={restaurant._id}>
-                      <Link to={"/menu/" + restaurant?.id}>
-                        <Card className="h-full shadow-2xl border-[0.8px] border-gray-600">
-                          <CardHeader>
-                            <CardTitle className="whitespace-nowrap overflow-hidden overflow-ellipsis py-2">
-                              {restaurant?.name}
-                            </CardTitle>
-                          </CardHeader>
+                      <Card className="h-full shadow-lg shadow-gray-600 ">
+                        <div className="flex justify-between items-center px-2">
+                          <div className="flex-grow-1">
+                            <CardHeader className="flex justify-start items-center">
+                              <CardTitle className="whitespace-nowrap overflow-hidden overflow-ellipsis py-2">
+                                {restaurant?.name &&
+                                (restaurant.name.split(" ").length > 1 ||
+                                  restaurant.name.length > 5)
+                                  ? `${restaurant.name.split(" ")[0]} ${
+                                      restaurant.name.split(" ")[1]
+                                        ? restaurant.name
+                                            .split(" ")[1]
+                                            .slice(0, 5)
+                                        : ""
+                                    }...`
+                                  : restaurant.name}
+                              </CardTitle>
+                            </CardHeader>
+                          </div>
+                          <div className="flex items-center">
+                            <Heart
+                              className={`h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125 transform ${
+                                restaurant?.isFav
+                                  ? "text-red-500  fill-current"
+                                  : "text-black "
+                              }`}
+                              onClick={() => handleFavRes(restaurant?._id)}
+                            />
+                          </div>
+                        </div>
+
+                        <Link to={"/menu/" + restaurant?.id}>
                           <CardContent className="flex flex-col">
                             <div className="flex-shrink-0 h-48">
                               <img
@@ -153,8 +192,8 @@ const RestaurantList = () => {
                               </span>
                             </div>
                           </CardContent>
-                        </Card>
-                      </Link>
+                        </Link>
+                      </Card>
                     </div>
                   );
                 })

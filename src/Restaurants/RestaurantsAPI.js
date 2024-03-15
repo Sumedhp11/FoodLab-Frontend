@@ -36,3 +36,21 @@ export const getResMenu = async ({ resId, search, page = 0 }) => {
     throw error;
   }
 };
+
+export const toggleIsFav = async ({ resId }) => {
+  try {
+    const res = await fetch(
+      ` ${
+        import.meta.env.VITE_APP_URL_API
+      }/restaurants/toggle-fav?resId=${resId}`,
+      {
+        method: "PUT",
+      }
+    );
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
