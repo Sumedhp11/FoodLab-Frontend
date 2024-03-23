@@ -9,7 +9,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { AlignJustify, LogOut, ShoppingBasket, Store } from "lucide-react";
+import {
+  AlignJustify,
+  Heart,
+  LogOut,
+  ShoppingBasket,
+  Store,
+} from "lucide-react";
 import { Badge } from "./ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCartById } from "@/cart/cartAPI";
@@ -73,6 +79,15 @@ const NavBar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-48 mx-3 bg-green-700">
                 <DropdownMenuGroup>
+                  <Link to={"/favourites"}>
+                    <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
+                      <span className="font-medium text-base text-white">
+                        Favourites
+                      </span>
+                      <Heart size={25} color="white" />
+                    </DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuSeparator />
                   <Link to={"/orders"}>
                     <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
                       <span className="font-medium text-base text-white">

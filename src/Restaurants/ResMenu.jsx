@@ -12,8 +12,12 @@ import {
 } from "@tanstack/react-query";
 import { getResMenu } from "./RestaurantsAPI";
 import { debounce } from "lodash";
-import { Minus, Plus } from "lucide-react";
+import { Heart, Minus, Plus } from "lucide-react";
 import { addtoCart, fetchCartById } from "@/cart/cartAPI";
+import {
+  getAllFavourites,
+  toggleFavDish,
+} from "@/components/favourites/FavouritesAPI";
 
 // eslint-disable-next-line react/prop-types
 const ResMenu = ({ resId }) => {
@@ -70,7 +74,10 @@ const ResMenu = ({ resId }) => {
   const handleAddToCart = (quantity, dishId) => {
     mutate({ userId, quantity, dishId });
   };
-
+  const { data: favds } = useQuery({
+    queryKey: ["favs"],
+    queryFn: () => getAllFavourites({ userId }),
+  });
   const handleIncrement = (dishId) => {
     const updatedCartItems = cartItems?.cartItems.map((item) =>
       item.dish._id === dishId ? { ...item, quantity: item.quantity + 1 } : item
@@ -104,7 +111,15 @@ const ResMenu = ({ resId }) => {
       mutate({ userId, quantity: updatedCartItem.quantity, dishId });
     }
   };
+  const favDishes = favds ? favds.dishId.map((item) => item?._id) : [];
 
+  const { mutate: addtofavDish } = useMutation({
+    mutationFn: toggleFavDish,
+    onSuccess: () => queryClient.invalidateQueries("resmenu"),
+  });
+  const handlefavDish = (dishId) => {
+    addtofavDish({ userId: userId, dishId: dishId });
+  };
   return (
     <>
       <div className="w-1/3">
@@ -125,7 +140,7 @@ const ResMenu = ({ resId }) => {
               });
 
               const cartQuantity = cartItem ? cartItem.quantity : 0;
-
+              const isFav = favDishes.includes(dish?._id);
               return (
                 <div
                   key={dish?._id}
@@ -145,6 +160,19 @@ const ResMenu = ({ resId }) => {
                       </span>
                     </div>
                     <p className="font-medium">₹ {dish?.mrp / 100} </p>
+                    <div className="flex gap-4">
+                      <span className="text-base font-medium">
+                        Add to Favourites
+                      </span>
+                      <span>
+                        <Heart
+                          className={`h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125 transform ${
+                            isFav ? "text-red-500 fill-current" : "text-black"
+                          }`}
+                          onClick={() => handlefavDish(dish._id)}
+                        />
+                      </span>
+                    </div>
                   </div>
                   <div className="h-32 w-32 relative">
                     <img

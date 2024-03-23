@@ -4,18 +4,24 @@ import { useInView } from "react-intersection-observer";
 import {
   useInfiniteQuery,
   useMutation,
+  useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { getAllRestaurants, toggleIsFav } from "./RestaurantsAPI";
+import { getAllRestaurants } from "./RestaurantsAPI";
 import Loader from "@/loader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heart, Timer } from "lucide-react";
 import { debounce } from "lodash";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
+import {
+  getAllFavourites,
+  toggleFavRes,
+} from "@/components/favourites/FavouritesAPI";
 
 const RestaurantList = () => {
   const queryClient = useQueryClient();
+  const userId = localStorage.getItem("UserId");
   const [searchQuery, setSearchQuery] = useState("");
   const {
     data: restaurants,
@@ -56,16 +62,23 @@ const RestaurantList = () => {
     setSearchQuery(query);
     debouncedFetchRestaurants(query);
   };
-  const { mutate } = useMutation({
-    mutationFn: toggleIsFav,
-    onSuccess: () => {
-      queryClient.invalidateQueries("restaurants");
-    },
+  const { data: favouritesData } = useQuery({
+    queryKey: ["favrs"],
+    queryFn: () => getAllFavourites({ userId }),
   });
 
+  const favoriteRestaurantIds = favouritesData
+    ? favouritesData.resId.map((item) => item?._id)
+    : [];
+
+  const { mutate } = useMutation({
+    mutationFn: toggleFavRes,
+    onSuccess: () => queryClient.invalidateQueries("restaurants"),
+  });
   const handleFavRes = (resId) => {
-    mutate({ resId: resId });
+    mutate({ userId: userId, resId: resId });
   };
+
   return (
     <div className=" min-h-screen ">
       <NavBar />
@@ -87,6 +100,9 @@ const RestaurantList = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {restaurants?.pages.map((page) =>
                 page?.restaurants?.map((restaurant) => {
+                  const isFavorite = favoriteRestaurantIds.includes(
+                    restaurant._id
+                  );
                   return (
                     <div key={restaurant._id}>
                       <Card className="h-full shadow-lg shadow-gray-600 ">
@@ -111,11 +127,11 @@ const RestaurantList = () => {
                           <div className="flex items-center">
                             <Heart
                               className={`h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125 transform ${
-                                restaurant?.isFav
+                                isFavorite
                                   ? "text-red-500  fill-current"
                                   : "text-black "
                               }`}
-                              onClick={() => handleFavRes(restaurant?._id)}
+                              onClick={() => handleFavRes(restaurant._id)}
                             />
                           </div>
                         </div>

@@ -11,6 +11,7 @@ import ResMenuPage from "./Restaurants/ResMenuPage";
 import Cart from "./cart/Cart";
 import Congratspage from "./components/Congrats";
 import OrderPage from "./orders/OrderPage";
+import FavouritesPage from "./components/favourites/FavouritesPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -59,6 +60,14 @@ function App() {
       element: (
         <AuthProvider>
           <Congratspage />
+        </AuthProvider>
+      ),
+    },
+    {
+      path: "/favourites",
+      element: (
+        <AuthProvider>
+          <FavouritesPage />
         </AuthProvider>
       ),
     },
