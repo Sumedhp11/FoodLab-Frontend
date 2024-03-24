@@ -18,6 +18,8 @@ import {
   getAllFavourites,
   toggleFavDish,
 } from "@/components/favourites/FavouritesAPI";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 // eslint-disable-next-line react/prop-types
 const ResMenu = ({ resId }) => {
@@ -25,12 +27,13 @@ const ResMenu = ({ resId }) => {
   const userId = localStorage.getItem("UserId");
   const [searchQuery, setSearchQuery] = useState("");
   const { ref, inView } = useInView();
+  const [isVeg, setisVeg] = useState(false);
   const [cartItems, setCartItems] = useState([]);
 
   const { data, isLoading, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["resmenu", resId, searchQuery],
+    queryKey: ["resmenu", resId, searchQuery, isVeg],
     queryFn: ({ pageParam = 0 }) =>
-      getResMenu({ resId: resId, search: searchQuery, page: pageParam }),
+      getResMenu({ resId: resId, search: searchQuery, page: pageParam, isVeg }),
     getNextPageParam: (lastPage) =>
       lastPage.totalPages > lastPage.page ? lastPage.page + 1 : null,
   });
@@ -120,15 +123,20 @@ const ResMenu = ({ resId }) => {
   const handlefavDish = (dishId) => {
     addtofavDish({ userId: userId, dishId: dishId });
   };
+
   return (
     <>
-      <div className="w-1/3">
+      <div className="w-1/3 flex gap-4">
         <Input
           value={searchQuery}
           className="font-medium border-[0.8px] border-gray-600 w-[70%]"
           placeholder="Search Dishes"
           onChange={handleSearchChange}
         />
+        <div className="flex items-center space-x-2">
+          <Switch onCheckedChange={(data) => setisVeg(data)} />
+          <Label>Veg</Label>
+        </div>
       </div>
       <div className="w-full">
         <div className="space-y-3">

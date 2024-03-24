@@ -17,13 +17,12 @@ export const getAllRestaurants = async ({ page = 0, search, resId }) => {
   }
 };
 
-export const getResMenu = async ({ resId, search, page = 0 }) => {
+export const getResMenu = async ({ resId, search, page = 0, isVeg }) => {
   try {
     let url = `${
       import.meta.env.VITE_APP_URL_API
-    }/restaurants/menu?resId=${resId}&page=${page}`;
+    }/restaurants/menu?resId=${resId}&page=${page}&isveg=${isVeg}`;
 
-    // Append search query to the URL if provided
     if (search) {
       url += `&search=${search}`;
     }
