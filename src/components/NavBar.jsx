@@ -34,6 +34,7 @@ const NavBar = () => {
   const handleSignout = () => {
     localStorage.setItem("IsloggenIn", false);
     localStorage.setItem("UserId", null);
+    localStorage.setItem("isAdmin", null);
     navigate("/");
   };
 

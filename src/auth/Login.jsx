@@ -41,6 +41,7 @@ const Login = () => {
       form.reset();
       localStorage.setItem("IsloggenIn", true);
       localStorage.setItem("UserId", data?.data[0]?._id);
+      localStorage.setItem("isAdmin", data?.data[0]?.isAdmin);
       navigate("/restaurants");
     },
     onError: () => {

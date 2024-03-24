@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Link } from "react-router-dom";
+import { toast } from "@/components/ui/use-toast";
 
 const Cart = () => {
   const queryClient = useQueryClient();
@@ -111,12 +112,19 @@ const Cart = () => {
   });
 
   const handleCheckout = () => {
-    makePayment({
-      amount: cart?.data?.totalPrice,
-      userId: userId,
-      selectedAddress: selectedAddress,
-      cartItems: cartItems,
-    });
+    if (selectedAddress === null) {
+      return toast({
+        variant: "destructive",
+        title: "Please Select an Address Before payment",
+      });
+    } else {
+      makePayment({
+        amount: cart?.data?.totalPrice,
+        userId: userId,
+        selectedAddress: selectedAddress,
+        cartItems: cartItems,
+      });
+    }
   };
 
   const handleInputChange = (e) => {
