@@ -43,6 +43,7 @@ const Login = () => {
       localStorage.setItem("IsloggenIn", true);
       localStorage.setItem("UserId", data?.data[0]?._id);
       localStorage.setItem("isAdmin", data?.data[0]?.isAdmin);
+      localStorage.setItem("Name", data?.data[0]?.name);
       navigate("/restaurants");
     },
     onError: () => {

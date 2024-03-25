@@ -20,10 +20,28 @@ import {
 import { Badge } from "./ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCartById } from "@/cart/cartAPI";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 const NavBar = () => {
   const userId = localStorage.getItem("UserId");
   const isAdmin = localStorage.getItem("isAdmin");
+  const Name = localStorage.getItem("Name");
   const navigate = useNavigate();
   const isloggedIn = localStorage.getItem("IsloggenIn");
   const [time, setTime] = useState(new Date());
@@ -37,6 +55,7 @@ const NavBar = () => {
     localStorage.setItem("IsloggenIn", false);
     localStorage.setItem("UserId", null);
     localStorage.setItem("isAdmin", null);
+    localStorage.setItem("Name", null);
     navigate("/");
   };
 
@@ -59,7 +78,9 @@ const NavBar = () => {
           </Link>
         </div>
         <div>
-          <h1 className="text-xl font-medium text-white">Welcome Foodie!</h1>
+          <h1 className="text-xl font-medium text-white">
+            Welcome {isloggedIn === "true" ? Name : "Foodie!"}
+          </h1>
         </div>
       </div>
       <div className="flex items-center gap-3">
@@ -103,7 +124,6 @@ const NavBar = () => {
                           <Store size={25} color="white" />
                         </DropdownMenuItem>
                       </Link>
-                      <DropdownMenuSeparator />
                     </>
                   ) : (
                     <>
@@ -124,23 +144,45 @@ const NavBar = () => {
                           <Store size={25} color="white" />
                         </DropdownMenuItem>
                       </Link>
-                      <DropdownMenuSeparator />
                     </>
                   )}
-                  <DropdownMenuItem
-                    onClick={handleSignout}
-                    className="flex items-center justify-between cursor-pointer hover:bg-green-700"
-                  >
-                    <span className="font-medium text-base text-white">
-                      Logout
-                    </span>
-                    <LogOut size={25} color="white" />
-                  </DropdownMenuItem>
                 </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
           </>
         ) : null}
+
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <LogOut size={25} color="white" cursor={"pointer"} />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Signout</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you Sure?</AlertDialogTitle>
+              <AlertDialogDescription className="font-normal">
+                Thank you For Your Time, Enjoy Your Food!
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-red-500 hover:bg-red-700"
+                onClick={handleSignout}
+              >
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );
