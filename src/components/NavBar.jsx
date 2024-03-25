@@ -15,6 +15,7 @@ import {
   LogOut,
   ShoppingBasket,
   Store,
+  User,
 } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { useQuery } from "@tanstack/react-query";
@@ -22,6 +23,7 @@ import { fetchCartById } from "@/cart/cartAPI";
 
 const NavBar = () => {
   const userId = localStorage.getItem("UserId");
+  const isAdmin = localStorage.getItem("isAdmin");
   const navigate = useNavigate();
   const isloggedIn = localStorage.getItem("IsloggenIn");
   const [time, setTime] = useState(new Date());
@@ -64,14 +66,16 @@ const NavBar = () => {
         <h2 className="text-white font-medium">{formattedTime}</h2>
         {isloggedIn === "true" ? (
           <>
-            <Link to={"/cart"}>
-              <div className="relative py-3">
-                <ShoppingBasket size={30} color="white" />
-                <Badge className="absolute -top-3 bg-black text-white ">
-                  {data?.data?.cartItems?.length}
-                </Badge>
-              </div>
-            </Link>
+            {isAdmin === "false" && (
+              <Link to={"/cart"}>
+                <div className="relative py-3">
+                  <ShoppingBasket size={30} color="white" />
+                  <Badge className="absolute -top-3 bg-black text-white ">
+                    {data?.data?.cartItems?.length}
+                  </Badge>
+                </div>
+              </Link>
+            )}
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <div className="w-fit  flex items-center">
@@ -80,24 +84,49 @@ const NavBar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-48 mx-3 bg-green-700">
                 <DropdownMenuGroup>
-                  <Link to={"/favourites"}>
-                    <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
-                      <span className="font-medium text-base text-white">
-                        Favourites
-                      </span>
-                      <Heart size={25} color="white" />
-                    </DropdownMenuItem>
-                  </Link>
-                  <DropdownMenuSeparator />
-                  <Link to={"/orders"}>
-                    <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
-                      <span className="font-medium text-base text-white">
-                        Your Orders
-                      </span>
-                      <Store size={25} color="white" />
-                    </DropdownMenuItem>
-                  </Link>
-                  <DropdownMenuSeparator />
+                  {isAdmin === "false" ? (
+                    <>
+                      <Link to={"/favourites"}>
+                        <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
+                          <span className="font-medium text-base text-white">
+                            Favourites
+                          </span>
+                          <Heart size={25} color="white" />
+                        </DropdownMenuItem>
+                      </Link>
+                      <DropdownMenuSeparator />
+                      <Link to={"/orders"}>
+                        <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
+                          <span className="font-medium text-base text-white">
+                            Your Orders
+                          </span>
+                          <Store size={25} color="white" />
+                        </DropdownMenuItem>
+                      </Link>
+                      <DropdownMenuSeparator />
+                    </>
+                  ) : (
+                    <>
+                      <Link to={"/admin/users"}>
+                        <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
+                          <span className="font-medium text-base text-white">
+                            Users
+                          </span>
+                          <User size={25} color="white" />
+                        </DropdownMenuItem>
+                      </Link>
+                      <DropdownMenuSeparator />
+                      <Link to={"/admin/orders"}>
+                        <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
+                          <span className="font-medium text-base text-white">
+                            All Orders
+                          </span>
+                          <Store size={25} color="white" />
+                        </DropdownMenuItem>
+                      </Link>
+                      <DropdownMenuSeparator />
+                    </>
+                  )}
                   <DropdownMenuItem
                     onClick={handleSignout}
                     className="flex items-center justify-between cursor-pointer hover:bg-green-700"

@@ -12,6 +12,9 @@ import Cart from "./cart/Cart";
 import Congratspage from "./components/Congrats";
 import OrderPage from "./orders/OrderPage";
 import FavouritesPage from "./components/favourites/FavouritesPage";
+import AdminAuthProvider from "./adminPages/AdminAuthProvider";
+import UsersPage from "./adminPages/users/UsersPage";
+import AdminOrdersPage from "./adminPages/OrdersPage/AdminOrdersPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -69,6 +72,22 @@ function App() {
         <AuthProvider>
           <FavouritesPage />
         </AuthProvider>
+      ),
+    },
+    {
+      path: "/admin/users",
+      element: (
+        <AdminAuthProvider>
+          <UsersPage />
+        </AdminAuthProvider>
+      ),
+    },
+    {
+      path: "/admin/orders",
+      element: (
+        <AdminAuthProvider>
+          <AdminOrdersPage />
+        </AdminAuthProvider>
       ),
     },
   ]);
