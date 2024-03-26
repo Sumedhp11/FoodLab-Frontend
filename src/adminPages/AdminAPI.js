@@ -35,3 +35,48 @@ export const updateDeliveryStatus = async ({ orderId, deliveryStatus }) => {
   const data = await res.json();
   return data;
 };
+export const editrestaurant = async ({ formData, resId }) => {
+  try {
+    const res = await fetch(
+      `${import.meta.env.VITE_APP_URL_API}/admin/edit-res/${resId}`,
+      {
+        method: "POST",
+
+        body: formData,
+      }
+    );
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+};
+
+export const deleteres = async ({ resId }) => {
+  const res = await fetch(
+    `${import.meta.env.VITE_APP_URL_API}/admin/delete-res?resId=${resId}`,
+    {
+      method: "PUT",
+    }
+  );
+  const data = await res.json();
+  return data;
+};
+export const addnewrestaurant = async ({ formData }) => {
+  try {
+    const res = await fetch(
+      `${import.meta.env.VITE_APP_URL_API}/admin/add-res`,
+      {
+        method: "POST",
+
+        body: formData,
+      }
+    );
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+};

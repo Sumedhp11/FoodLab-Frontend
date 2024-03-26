@@ -316,7 +316,10 @@ const Cart = () => {
                   <div className="h-32 w-32 relative">
                     <img
                       className="object-cover h-full w-full"
-                      src={import.meta.env.VITE_APP_IMAGE_URL + item.dish.image}
+                      src={
+                        import.meta.env.VITE_APP_CLOUDINARY_IMAGE_URL +
+                        item.dish.image
+                      }
                       alt="res-logo"
                     />
                     <div className="absolute bottom-0 bg-green-700 w-full flex justify-between font-normal rounded-md cursor-pointer text-white">

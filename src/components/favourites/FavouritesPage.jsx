@@ -117,7 +117,7 @@ const FavouritesPage = () => {
                             <img
                               className="object-cover w-full h-full"
                               src={
-                                import.meta.env.VITE_APP_IMAGE_URL +
+                                import.meta.env.VITE_APP_CLOUDINARY_IMAGE_URL +
                                 favres?.imageId
                               }
                               alt="res-logo"

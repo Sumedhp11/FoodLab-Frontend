@@ -60,7 +60,7 @@ const ResCard = ({ resId }) => {
             <img
               className="object-cover h-full w-full"
               src={
-                import.meta.env.VITE_APP_IMAGE_URL +
+                import.meta.env.VITE_APP_CLOUDINARY_IMAGE_URL +
                 data?.restaurants[0]?.imageId
               }
               alt="res-logo"

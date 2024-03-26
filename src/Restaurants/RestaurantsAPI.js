@@ -21,10 +21,13 @@ export const getResMenu = async ({ resId, search, page = 0, isVeg }) => {
   try {
     let url = `${
       import.meta.env.VITE_APP_URL_API
-    }/restaurants/menu?resId=${resId}&page=${page}&isveg=${isVeg}`;
+    }/restaurants/menu?resId=${resId}&page=${page}`;
 
     if (search) {
       url += `&search=${search}`;
+    }
+    if (isVeg !== null) {
+      url += `&isveg=${isVeg}`;
     }
 
     const res = await fetch(url);

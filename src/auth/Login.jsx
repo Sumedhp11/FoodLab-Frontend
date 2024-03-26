@@ -36,7 +36,6 @@ const Login = () => {
     mutationFn: loginAPI,
     onSuccess: (data) => {
       toast({
-        variant: "",
         description: "Login Sucessfully",
       });
       form.reset();

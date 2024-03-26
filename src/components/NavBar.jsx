@@ -31,12 +31,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./ui/tooltip";
 
 const NavBar = () => {
   const userId = localStorage.getItem("UserId");
@@ -154,16 +148,7 @@ const NavBar = () => {
 
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <LogOut size={25} color="white" cursor={"pointer"} />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Signout</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <LogOut size={25} color="white" cursor={"pointer"} />
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -178,7 +163,7 @@ const NavBar = () => {
                 className="bg-red-500 hover:bg-red-700"
                 onClick={handleSignout}
               >
-                Delete
+                SignOut
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

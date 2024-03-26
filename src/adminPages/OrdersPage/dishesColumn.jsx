@@ -13,7 +13,10 @@ export const dishescolumns = [
       <div className="w-20 h-20">
         <img
           className="w-full h-full object-cover"
-          src={import.meta.env.VITE_APP_IMAGE_URL + row.original.dish.image}
+          src={
+            import.meta.env.VITE_APP_CLOUDINARY_IMAGE_URL +
+            row.original.dish.image
+          }
           alt=""
         />
       </div>

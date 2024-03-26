@@ -185,7 +185,10 @@ const ResMenu = ({ resId }) => {
                   <div className="h-32 w-32 relative">
                     <img
                       className="object-cover h-full w-full"
-                      src={import.meta.env.VITE_APP_IMAGE_URL + dish?.image}
+                      src={
+                        import.meta.env.VITE_APP_CLOUDINARY_IMAGE_URL +
+                        dish?.image
+                      }
                       alt="res-logo"
                     />
                     {cartQuantity === 0 ? (
