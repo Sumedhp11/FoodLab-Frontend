@@ -29,6 +29,7 @@ const ResMenu = ({ resId }) => {
   const { ref, inView } = useInView();
   const [isVeg, setisVeg] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const [cartItemIdInProcess, setCartItemIdInProcess] = useState(null);
 
   const { data, isLoading, fetchNextPage } = useInfiniteQuery({
     queryKey: ["resmenu", resId, searchQuery, isVeg],
@@ -75,6 +76,7 @@ const ResMenu = ({ resId }) => {
   });
 
   const handleAddToCart = (quantity, dishId) => {
+    setCartItemIdInProcess(dishId);
     mutate({ userId, quantity, dishId });
   };
   const { data: favds } = useQuery({
@@ -194,10 +196,12 @@ const ResMenu = ({ resId }) => {
                     {cartQuantity === 0 ? (
                       <button
                         onClick={() => handleAddToCart(1, dish._id)}
-                        disabled={isPending}
+                        disabled={isPending && cartItemIdInProcess !== dish._id}
                         className="absolute bottom-0 bg-green-700 w-full flex justify-center font-normal rounded-md cursor-pointer text-white"
                       >
-                        {isPending ? "Adding..." : "Add to Cart"}
+                        {isPending && cartItemIdInProcess === dish._id
+                          ? "Adding..."
+                          : "Add to Cart"}
                       </button>
                     ) : (
                       <div className="absolute bottom-0 bg-green-700 w-full flex justify-between font-normal rounded-md cursor-pointer text-white">
