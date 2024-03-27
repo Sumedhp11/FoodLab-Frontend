@@ -36,6 +36,7 @@ const Signup = () => {
       toast({
         description: "Registration Sucessfully",
       });
+      navigate("/");
       form.reset();
     },
     onError: () => {
@@ -178,10 +179,10 @@ const Signup = () => {
                   <div className="flex items-center gap-4">
                     <Button
                       type="submit"
-                      className="bg-black"
+                      className="bg-green-700"
                       disabled={isLoading}
                     >
-                      {isLoading ? "Loading..." : "Sign Up"}
+                      {isLoading ? "Registering..." : "Sign Up"}
                     </Button>
                     <div className="font-normal text-base">
                       <span>Already have an account?</span>{" "}

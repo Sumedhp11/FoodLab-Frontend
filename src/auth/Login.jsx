@@ -141,7 +141,7 @@ const Login = () => {
                   <div className="flex items-center gap-4">
                     <Button
                       type="submit"
-                      className="bg-black"
+                      className="bg-green-700"
                       disabled={isPending}
                     >
                       {isPending ? "Signing In..." : "Sign In"}
