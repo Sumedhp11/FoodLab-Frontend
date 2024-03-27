@@ -148,7 +148,9 @@ const NavBar = () => {
 
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <LogOut size={25} color="white" cursor={"pointer"} />
+            {isloggedIn === "true" && (
+              <LogOut size={25} color="white" cursor={"pointer"} />
+            )}
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
