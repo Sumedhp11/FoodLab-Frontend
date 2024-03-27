@@ -24,6 +24,7 @@ import { Label } from "@/components/ui/label";
 // eslint-disable-next-line react/prop-types
 const ResMenu = ({ resId }) => {
   const queryClient = useQueryClient();
+  const isAdmin = localStorage.getItem("isAdmin");
   const userId = localStorage.getItem("UserId");
   const [searchQuery, setSearchQuery] = useState("");
   const { ref, inView } = useInView();
@@ -170,19 +171,21 @@ const ResMenu = ({ resId }) => {
                       </span>
                     </div>
                     <p className="font-medium">₹ {dish?.mrp / 100} </p>
-                    <div className="flex gap-4">
-                      <span className="text-base font-medium">
-                        Add to Favourites
-                      </span>
-                      <span>
-                        <Heart
-                          className={`h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125 transform ${
-                            isFav ? "text-red-500 fill-current" : "text-black"
-                          }`}
-                          onClick={() => handlefavDish(dish._id)}
-                        />
-                      </span>
-                    </div>
+                    {isAdmin === "false" && (
+                      <div className="flex gap-4">
+                        <span className="text-base font-medium">
+                          Add to Favourites
+                        </span>
+                        <span>
+                          <Heart
+                            className={`h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125 transform ${
+                              isFav ? "text-red-500 fill-current" : "text-black"
+                            }`}
+                            onClick={() => handlefavDish(dish._id)}
+                          />
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="h-32 w-32 relative">
                     <img
@@ -193,27 +196,33 @@ const ResMenu = ({ resId }) => {
                       }
                       alt="res-logo"
                     />
-                    {cartQuantity === 0 ? (
-                      <button
-                        onClick={() => handleAddToCart(1, dish._id)}
-                        disabled={isPending && cartItemIdInProcess !== dish._id}
-                        className="absolute bottom-0 bg-green-700 w-full flex justify-center font-normal rounded-md cursor-pointer text-white"
-                      >
-                        {isPending && cartItemIdInProcess === dish._id
-                          ? "Adding..."
-                          : "Add to Cart"}
-                      </button>
-                    ) : (
-                      <div className="absolute bottom-0 bg-green-700 w-full flex justify-between font-normal rounded-md cursor-pointer text-white">
-                        <button onClick={() => handleDecrement(dish._id)}>
-                          <Minus />
-                        </button>
-                        <span className="mx-2">{cartQuantity}</span>
-                        <button onClick={() => handleIncrement(dish._id)}>
-                          <Plus />
-                        </button>
-                      </div>
-                    )}
+                    {isAdmin === "false" ? (
+                      <>
+                        {cartQuantity === 0 ? (
+                          <button
+                            onClick={() => handleAddToCart(1, dish._id)}
+                            disabled={
+                              isPending && cartItemIdInProcess !== dish._id
+                            }
+                            className="absolute bottom-0 bg-green-700 w-full flex justify-center font-normal rounded-md cursor-pointer text-white"
+                          >
+                            {isPending && cartItemIdInProcess === dish._id
+                              ? "Adding..."
+                              : "Add to Cart"}
+                          </button>
+                        ) : (
+                          <div className="absolute bottom-0 bg-green-700 w-full flex justify-between font-normal rounded-md cursor-pointer text-white">
+                            <button onClick={() => handleDecrement(dish._id)}>
+                              <Minus />
+                            </button>
+                            <span className="mx-2">{cartQuantity}</span>
+                            <button onClick={() => handleIncrement(dish._id)}>
+                              <Plus />
+                            </button>
+                          </div>
+                        )}
+                      </>
+                    ) : null}
                   </div>
                 </div>
               );
