@@ -238,7 +238,10 @@ const FavouritesPage = () => {
                       <div className="flex-shrink-0 h-48">
                         <img
                           className="object-cover w-full h-full"
-                          src={import.meta.env.VITE_APP_IMAGE_URL + dish?.image}
+                          src={
+                            import.meta.env.VITE_APP_CLOUDINARY_IMAGE_URL +
+                            dish?.image
+                          }
                           alt="res-logo"
                         />
                       </div>
