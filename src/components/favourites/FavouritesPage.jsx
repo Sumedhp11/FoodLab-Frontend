@@ -48,7 +48,7 @@ const FavouritesPage = () => {
       <NavBar />
       <section className="w-full h-full flex flex-col justify-center items-center py-4">
         <h1 className="w-full text-center text-3xl font-medium my-3">
-          Your Favs
+          Your Favourites
         </h1>
         <div className="flex justify-start w-[80%] ">
           <Select onValueChange={(data) => setselectedFav(data)}>
