@@ -206,7 +206,7 @@ const FavouritesPage = () => {
                 const isFav = favDishes.includes(dish?._id);
                 return (
                   <Card
-                    className="col-span-3 border border-black shadow-lg shadow-gray-600 w-[80%]"
+                    className="col-span-3 border border-black shadow-lg shadow-gray-600 w-[80%] m-2"
                     key={dish._id}
                   >
                     <div className="flex justify-between items-center px-2">
