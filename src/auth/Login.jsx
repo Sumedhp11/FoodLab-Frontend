@@ -110,7 +110,7 @@ const Login = () => {
                         <FormLabel>
                           <div className="flex justify-between">
                             <h3>Password:</h3>
-                            <h3>Forgot Password?</h3>
+                            
                           </div>
                         </FormLabel>
                         <FormControl>
