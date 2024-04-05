@@ -175,22 +175,24 @@ const RestaurantList = () => {
                               </CardTitle>
                             </CardHeader>
                           </div>
-                          <div className="flex items-center">
-                            <button disabled={restaurant.isdeleted}>
-                              <Heart
-                                className={`h-6 w-6 ${
-                                  !restaurant.isdeleted
-                                    ? "cursor-pointer hover:scale-125"
-                                    : null
-                                } transition-transform duration-300  transform ${
-                                  isFavorite
-                                    ? "text-red-500  fill-current"
-                                    : "text-black "
-                                }`}
-                                onClick={() => handleFavRes(restaurant._id)}
-                              />
-                            </button>
-                          </div>
+                          {isAdmin === "false" && (
+                            <div className="flex items-center">
+                              <button disabled={restaurant.isdeleted}>
+                                <Heart
+                                  className={`h-6 w-6 ${
+                                    !restaurant.isdeleted
+                                      ? "cursor-pointer hover:scale-125"
+                                      : null
+                                  } transition-transform duration-300  transform ${
+                                    isFavorite
+                                      ? "text-red-500  fill-current"
+                                      : "text-black "
+                                  }`}
+                                  onClick={() => handleFavRes(restaurant._id)}
+                                />
+                              </button>
+                            </div>
+                          )}
                         </div>
 
                         <CardContent
