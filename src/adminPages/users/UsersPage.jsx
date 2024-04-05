@@ -22,7 +22,7 @@ const UsersPage = () => {
             <Loader />
           ) : (
             <>
-              <h1 className="my-4 text-3xl font-normal">Customers</h1>
+              <h1 className="my-4 text-3xl font-normal">All Users</h1>
 
               <DataTable columns={columns} data={users} />
             </>
