@@ -15,6 +15,8 @@ import FavouritesPage from "./components/favourites/FavouritesPage";
 import AdminAuthProvider from "./adminPages/AdminAuthProvider";
 import UsersPage from "./adminPages/users/UsersPage";
 import AdminOrdersPage from "./adminPages/OrdersPage/AdminOrdersPage";
+import DashBoardPage from "./adminPages/Dashboard/DashBoardPage";
+import RestaurantPage from "./adminPages/RestaurantsPage/RestaurantPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -75,10 +77,26 @@ function App() {
       ),
     },
     {
+      path: "/admin/",
+      element: (
+        <AdminAuthProvider>
+          <DashBoardPage />
+        </AdminAuthProvider>
+      ),
+    },
+    {
       path: "/admin/users",
       element: (
         <AdminAuthProvider>
           <UsersPage />
+        </AdminAuthProvider>
+      ),
+    },
+    {
+      path: "/admin/restaurants",
+      element: (
+        <AdminAuthProvider>
+          <RestaurantPage />
         </AdminAuthProvider>
       ),
     },

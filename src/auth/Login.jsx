@@ -43,7 +43,11 @@ const Login = () => {
       localStorage.setItem("UserId", data?.data[0]?._id);
       localStorage.setItem("isAdmin", data?.data[0]?.isAdmin);
       localStorage.setItem("Name", data?.data[0]?.name);
-      navigate("/restaurants");
+      if (data?.data[0]?.isAdmin) {
+        navigate("/admin");
+      } else {
+        navigate("/restaurants");
+      }
     },
     onError: () => {
       toast({
@@ -110,7 +114,6 @@ const Login = () => {
                         <FormLabel>
                           <div className="flex justify-between">
                             <h3>Password:</h3>
-                            
                           </div>
                         </FormLabel>
                         <FormControl>

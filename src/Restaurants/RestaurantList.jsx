@@ -10,7 +10,7 @@ import {
 import { getAllRestaurants } from "./RestaurantsAPI";
 import Loader from "@/loader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Heart, Pencil, Timer, Trash2 } from "lucide-react";
+import { Heart, Timer } from "lucide-react";
 import { debounce } from "lodash";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
@@ -18,33 +18,11 @@ import {
   getAllFavourites,
   toggleFavRes,
 } from "@/components/favourites/FavouritesAPI";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import EditRestaurant from "@/adminPages/RestaurantList/EditRestaurant";
-import { deleteres } from "@/adminPages/AdminAPI";
-import { Button } from "@/components/ui/button";
-import AddRestaurant from "@/adminPages/RestaurantList/AddRestaurant";
 
 const RestaurantList = () => {
   const queryClient = useQueryClient();
   const userId = localStorage.getItem("UserId");
-  const isAdmin = localStorage.getItem("isAdmin");
+
   const [searchQuery, setSearchQuery] = useState("");
 
   const {
@@ -102,13 +80,7 @@ const RestaurantList = () => {
   const handleFavRes = (resId) => {
     mutate({ userId: userId, resId: resId });
   };
-  const { mutate: deleterestaurant } = useMutation({
-    mutationFn: deleteres,
-    onSuccess: () => queryClient.invalidateQueries("restaurants"),
-  });
-  const handleDeleleRes = (resId) => {
-    deleterestaurant({ resId });
-  };
+
   return (
     <div className=" min-h-screen ">
       <NavBar />
@@ -123,21 +95,6 @@ const RestaurantList = () => {
                 className="w-72 font-medium border-[0.8px] border-gray-600"
               />
             </div>
-            {isAdmin === "true" && (
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button className="bg-green-700 hover:bg-green-800">
-                    Add New Restaurant
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className=" h-fit overflow-auto max-w-3xl">
-                  <DialogHeader>
-                    <DialogTitle>Add Restaurant</DialogTitle>
-                  </DialogHeader>
-                  <AddRestaurant />
-                </DialogContent>
-              </Dialog>
-            )}
           </div>
           {isLoading ? (
             <Loader />
@@ -175,24 +132,22 @@ const RestaurantList = () => {
                               </CardTitle>
                             </CardHeader>
                           </div>
-                          {isAdmin === "false" && (
-                            <div className="flex items-center">
-                              <button disabled={restaurant.isdeleted}>
-                                <Heart
-                                  className={`h-6 w-6 ${
-                                    !restaurant.isdeleted
-                                      ? "cursor-pointer hover:scale-125"
-                                      : null
-                                  } transition-transform duration-300  transform ${
-                                    isFavorite
-                                      ? "text-red-500  fill-current"
-                                      : "text-black "
-                                  }`}
-                                  onClick={() => handleFavRes(restaurant._id)}
-                                />
-                              </button>
-                            </div>
-                          )}
+                          <div className="flex items-center">
+                            <button>
+                              <Heart
+                                className={`h-6 w-6 ${
+                                  !restaurant.isdeleted
+                                    ? "cursor-pointer hover:scale-125"
+                                    : null
+                                } transition-transform duration-300  transform ${
+                                  isFavorite
+                                    ? "text-red-500  fill-current"
+                                    : "text-black "
+                                }`}
+                                onClick={() => handleFavRes(restaurant._id)}
+                              />
+                            </button>
+                          </div>
                         </div>
 
                         <CardContent
@@ -280,68 +235,6 @@ const RestaurantList = () => {
                               </span>
                             </div>
                           </Link>
-                          {isAdmin === "true" && (
-                            <div className="flex justify-between mt-3">
-                              <Dialog>
-                                <DialogTrigger asChild>
-                                  <button disabled={restaurant?.isdeleted}>
-                                    <Pencil
-                                      className={` ${
-                                        !restaurant?.isdeleted
-                                          ? "text-green-700 cursor-pointer"
-                                          : "text-gray-600"
-                                      }`}
-                                      size={25}
-                                    />
-                                  </button>
-                                </DialogTrigger>
-                                <DialogContent className=" h-fit overflow-auto max-w-3xl">
-                                  <DialogHeader>
-                                    <DialogTitle>Edit Restaurant</DialogTitle>
-                                  </DialogHeader>
-                                  <EditRestaurant restaurant={restaurant} />
-                                </DialogContent>
-                              </Dialog>
-
-                              <AlertDialog>
-                                <AlertDialogTrigger asChild>
-                                  <button disabled={restaurant.isdeleted}>
-                                    <Trash2
-                                      className={` ${
-                                        !restaurant.isdeleted
-                                          ? "cursor-pointer text-red-700"
-                                          : "text-gray-600"
-                                      }`}
-                                      size={25}
-                                    />
-                                  </button>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent>
-                                  <AlertDialogHeader>
-                                    <AlertDialogTitle>
-                                      Are you Sure?
-                                    </AlertDialogTitle>
-                                  </AlertDialogHeader>
-                                  <AlertDialogDescription className="font-medium">
-                                    You want to Delete {restaurant?.name}?
-                                  </AlertDialogDescription>
-                                  <AlertDialogFooter>
-                                    <AlertDialogCancel>
-                                      Cancel
-                                    </AlertDialogCancel>
-                                    <AlertDialogAction
-                                      className="bg-red-500 hover:bg-red-700"
-                                      onClick={() =>
-                                        handleDeleleRes(restaurant?._id)
-                                      }
-                                    >
-                                      Delete
-                                    </AlertDialogAction>
-                                  </AlertDialogFooter>
-                                </AlertDialogContent>
-                              </AlertDialog>
-                            </div>
-                          )}
                         </CardContent>
                       </Card>
                     </div>

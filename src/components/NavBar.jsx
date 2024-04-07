@@ -15,7 +15,6 @@ import {
   LogOut,
   ShoppingBasket,
   Store,
-  User,
 } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { useQuery } from "@tanstack/react-query";
@@ -63,7 +62,15 @@ const NavBar = () => {
     <div className="flex bg-green-700 items-center border rounded px-2 py-2 justify-between">
       <div className="flex items-center gap-3">
         <div className="w-24">
-          <Link to={"/restaurants"}>
+          <Link
+            to={
+              isloggedIn === "true"
+                ? isAdmin === "true"
+                  ? "/admin"
+                  : "/restaurants"
+                : ""
+            }
+          >
             <img
               className="w-full rounded-full"
               src="https://static.vecteezy.com/system/resources/previews/021/620/229/original/cute-burger-cartoon-icon-illustration-delicious-cheeseburger-food-icon-concept-illustration-suitable-for-icon-logo-sticker-clipart-free-vector.jpg"
@@ -79,18 +86,17 @@ const NavBar = () => {
       </div>
       <div className="flex items-center gap-3">
         <h2 className="text-white font-medium">{formattedTime}</h2>
-        {isloggedIn === "true" ? (
+        {isloggedIn === "true" && isAdmin === "false" ? (
           <>
-            {isAdmin === "false" && (
-              <Link to={"/cart"}>
-                <div className="relative py-3">
-                  <ShoppingBasket size={30} color="white" />
-                  <Badge className="absolute -top-3 bg-black text-white ">
-                    {data?.data?.cartItems?.length}
-                  </Badge>
-                </div>
-              </Link>
-            )}
+            <Link to={"/cart"}>
+              <div className="relative py-3">
+                <ShoppingBasket size={30} color="white" />
+                <Badge className="absolute -top-3 bg-black text-white ">
+                  {data?.data?.cartItems?.length}
+                </Badge>
+              </div>
+            </Link>
+
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <div className="w-fit  flex items-center">
@@ -99,47 +105,25 @@ const NavBar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-48 mx-3 bg-green-700">
                 <DropdownMenuGroup>
-                  {isAdmin === "false" ? (
-                    <>
-                      <Link to={"/favourites"}>
-                        <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
-                          <span className="font-medium text-base text-white">
-                            Favourites
-                          </span>
-                          <Heart size={25} color="white" />
-                        </DropdownMenuItem>
-                      </Link>
-                      <DropdownMenuSeparator />
-                      <Link to={"/orders"}>
-                        <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
-                          <span className="font-medium text-base text-white">
-                            Your Orders
-                          </span>
-                          <Store size={25} color="white" />
-                        </DropdownMenuItem>
-                      </Link>
-                    </>
-                  ) : (
-                    <>
-                      <Link to={"/admin/users"}>
-                        <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
-                          <span className="font-medium text-base text-white">
-                            Users
-                          </span>
-                          <User size={25} color="white" />
-                        </DropdownMenuItem>
-                      </Link>
-                      <DropdownMenuSeparator />
-                      <Link to={"/admin/orders"}>
-                        <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
-                          <span className="font-medium text-base text-white">
-                            All Orders
-                          </span>
-                          <Store size={25} color="white" />
-                        </DropdownMenuItem>
-                      </Link>
-                    </>
-                  )}
+                  <>
+                    <Link to={"/favourites"}>
+                      <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
+                        <span className="font-medium text-base text-white">
+                          Favourites
+                        </span>
+                        <Heart size={25} color="white" />
+                      </DropdownMenuItem>
+                    </Link>
+                    <DropdownMenuSeparator />
+                    <Link to={"/orders"}>
+                      <DropdownMenuItem className="flex items-center justify-between cursor-pointer hover:bg-green-700">
+                        <span className="font-medium text-base text-white">
+                          Your Orders
+                        </span>
+                        <Store size={25} color="white" />
+                      </DropdownMenuItem>
+                    </Link>
+                  </>
                 </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -156,7 +140,9 @@ const NavBar = () => {
             <AlertDialogHeader>
               <AlertDialogTitle>Are you Sure?</AlertDialogTitle>
               <AlertDialogDescription className="font-normal">
-                Thank you For Your Time, Enjoy Your Food!
+                {isAdmin === "false"
+                  ? "Thank you For Your Time, Enjoy Your Food!"
+                  : "See you Next Time Admin"}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
