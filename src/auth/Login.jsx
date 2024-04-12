@@ -32,7 +32,7 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const { mutate, isPending, error } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: loginAPI,
     onSuccess: (data) => {
       toast({
@@ -49,7 +49,7 @@ const Login = () => {
         navigate("/restaurants");
       }
     },
-    onError: () => {
+    onError: (error) => {
       toast({
         variant: "destructive",
         title: `${error.message}`,

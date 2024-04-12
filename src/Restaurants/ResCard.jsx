@@ -14,7 +14,7 @@ const ResCard = ({ resId }) => {
       {isLoading ? (
         <ResCardSkeleton />
       ) : (
-        <div className="border-[0.8px] border-gray-600 bg-slate-300 flex justify-between shadow-2xl py-2 rounded-lg w-full px-3">
+        <div className="border-[0.8px] border-gray-600 bg-slate-300 flex justify-between shadow-2xl py-2 rounded-lg w-fit px-3">
           <div className="justify-start w-1/2 px-2 space-y-2">
             <p className="font-medium text-lg">{data?.restaurants[0]?.name}</p>
             <p className="text-base font-medium text-gray-600 whitespace-nowrap overflow-hidden overflow-ellipsis my-1">

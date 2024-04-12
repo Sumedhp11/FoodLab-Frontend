@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 export const loginAPI = async (loginData) => {
   try {
     const response = await fetch(
@@ -11,19 +12,18 @@ export const loginAPI = async (loginData) => {
       }
     );
     if (!response.ok) {
-      throw new Error("Failed to fetch data");
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to fetch data");
     }
     const data = await response.json();
 
     return data;
   } catch (error) {
-    console.error("Error:", error);
     throw error;
   }
 };
 
 export const signupAPI = async (createUser) => {
-  console.log(createUser);
   try {
     const response = await fetch(
       `${import.meta.env.VITE_APP_URL_API}/auth/signup`,
@@ -35,11 +35,13 @@ export const signupAPI = async (createUser) => {
         body: JSON.stringify(createUser),
       }
     );
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to fetch data");
+    }
     const data = await response.json();
     return data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
-
-

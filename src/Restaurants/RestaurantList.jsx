@@ -108,15 +108,15 @@ const RestaurantList = () => {
                   return (
                     <div key={restaurant._id}>
                       <Card
-                        className={`h-full shadow-lg shadow-gray-600 ${
+                        className={`h-full min-w-full shadow-lg shadow-gray-600 ${
                           restaurant.isdeleted
                             ? "bg-gray-300 cursor-not-allowed"
                             : ""
                         }`}
                       >
                         <div className="flex justify-between items-center px-2">
-                          <div className="flex-grow-1">
-                            <CardHeader className="flex justify-start items-center">
+                          <div className="w-full ">
+                            <CardHeader className="flex flex-row justify-between w-full items-center">
                               <CardTitle className="whitespace-nowrap overflow-hidden overflow-ellipsis py-2">
                                 {restaurant?.name &&
                                 (restaurant.name.split(" ").length > 1 ||
@@ -130,23 +130,23 @@ const RestaurantList = () => {
                                     }...`
                                   : restaurant.name}
                               </CardTitle>
+                              <div className="flex items-center ">
+                                <button>
+                                  <Heart
+                                    className={`h-6 w-6 ${
+                                      !restaurant.isdeleted
+                                        ? "cursor-pointer hover:scale-125"
+                                        : null
+                                    } transition-transform duration-300  transform ${
+                                      isFavorite
+                                        ? "text-red-500  fill-current"
+                                        : "text-black "
+                                    }`}
+                                    onClick={() => handleFavRes(restaurant._id)}
+                                  />
+                                </button>
+                              </div>
                             </CardHeader>
-                          </div>
-                          <div className="flex items-center">
-                            <button>
-                              <Heart
-                                className={`h-6 w-6 ${
-                                  !restaurant.isdeleted
-                                    ? "cursor-pointer hover:scale-125"
-                                    : null
-                                } transition-transform duration-300  transform ${
-                                  isFavorite
-                                    ? "text-red-500  fill-current"
-                                    : "text-black "
-                                }`}
-                                onClick={() => handleFavRes(restaurant._id)}
-                              />
-                            </button>
                           </div>
                         </div>
 

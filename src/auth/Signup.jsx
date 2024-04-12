@@ -30,7 +30,7 @@ const Signup = () => {
     resolver: zodResolver(createUserSchema),
   });
 
-  const { mutate, isLoading, error } = useMutation({
+  const { mutate, isLoading } = useMutation({
     mutationFn: signupAPI,
     onSuccess: () => {
       toast({
@@ -39,7 +39,7 @@ const Signup = () => {
       navigate("/");
       form.reset();
     },
-    onError: () => {
+    onError: (error) => {
       toast({
         variant: "destructive",
         title: `${error.message}`,
