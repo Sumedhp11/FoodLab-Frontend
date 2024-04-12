@@ -83,8 +83,8 @@ const FavouritesPage = () => {
                     key={favres._id}
                   >
                     <div className="flex justify-between items-center px-2">
-                      <div className="flex-grow-1">
-                        <CardHeader className="flex justify-start items-center">
+                      <div className="w-full">
+                        <CardHeader className="flex flex-row justify-between w-full items-center">
                           <CardTitle className="whitespace-nowrap overflow-hidden overflow-ellipsis py-2">
                             {favres?.name &&
                             (favres.name.split(" ").length > 1 ||
@@ -96,17 +96,17 @@ const FavouritesPage = () => {
                                 }...`
                               : favres.name}
                           </CardTitle>
+                          <div className="flex items-center">
+                            <Heart
+                              className={`h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125 transform ${
+                                isFavorite
+                                  ? "text-red-500 fill-current"
+                                  : "text-black"
+                              }`}
+                              onClick={() => handleFavRes(favres._id)}
+                            />
+                          </div>
                         </CardHeader>
-                      </div>
-                      <div className="flex items-center">
-                        <Heart
-                          className={`h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125 transform ${
-                            isFavorite
-                              ? "text-red-500 fill-current"
-                              : "text-black"
-                          }`}
-                          onClick={() => handleFavRes(favres._id)}
-                        />
                       </div>
                     </div>
                     <Link to={"/menu/" + favres?.id}>
