@@ -43,7 +43,7 @@ const FavouritesPage = () => {
   const handlefavDish = (dishId) => {
     addtofavDish({ userId: userId, dishId: dishId });
   };
-
+  console.log(favs);
   return (
     <div className="min-h-screen">
       <NavBar />
@@ -74,7 +74,7 @@ const FavouritesPage = () => {
         </div>
         <div className="w-[80%]  py-12 grid grid-cols-12  ">
           {selectedFav === "restaurants" ? (
-            favs !== null ? (
+            favs && favs.resId.length > 0 ? (
               favs.resId?.map((favres) => {
                 const isFavorite = favoriteRestaurantIds.includes(favres._id);
                 return (
@@ -196,7 +196,7 @@ const FavouritesPage = () => {
                 </Button>
               </div>
             )
-          ) : favs !== null ? (
+          ) : favs && favs.dishId.length > 0 ? (
             favs.dishId.map((dish) => {
               const isFav = favDishes.includes(dish?._id);
               return (
