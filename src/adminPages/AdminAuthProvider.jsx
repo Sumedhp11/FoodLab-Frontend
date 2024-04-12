@@ -10,9 +10,9 @@ const AdminAuthProvider = ({ children }) => {
       {isLoggedIn === "false" ? (
         <Navigate to={"/"} />
       ) : isAdmin !== "true" ? (
-        <Navigate to={"/"} /> // Redirect to home if user is not an admin
+        <Navigate to={"/"} />
       ) : (
-        <div>{children}</div> // Render children if user is logged in and is an admin
+        <div>{children}</div>
       )}
     </>
   );

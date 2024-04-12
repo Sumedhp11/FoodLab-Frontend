@@ -33,13 +33,12 @@ const RestaurantPage = () => {
     setTotalPages(restaurantsData?.totalDocs);
   }, [restaurantsData?.totalDocs]);
 
-  console.log("36", page);
   return (
-    <div className="h-[100vh] overflow-y-hidden">
+    <div className=" overflow-y-hidden">
       <NavBar />
       <div className="flex gap-5">
         <AdminSideBar />
-        <section className="flex w-full my-2 py-2 justify-center px-5 ">
+        <section className="flex h-full w-full my-2 py-2 justify-center px-5 overflow-y-scroll">
           <div className="w-[90%]">
             {isLoading ? (
               <Loader />
