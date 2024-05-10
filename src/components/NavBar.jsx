@@ -61,7 +61,7 @@ const NavBar = () => {
   return (
     <div className="flex bg-green-700 items-center border rounded px-2 py-2 justify-between">
       <div className="flex items-center gap-3">
-        <div className="w-24">
+        <div className="w-20 md:w-24">
           <Link
             to={
               isloggedIn === "true"
@@ -79,13 +79,20 @@ const NavBar = () => {
           </Link>
         </div>
         <div>
-          <h1 className="text-xl font-medium text-white">
-            Welcome {isloggedIn === "true" ? Name : "Foodie!"}
+          <h1 className="text-lg md:text-xl font-medium text-white">
+            Welcome{" "}
+            {isloggedIn === "true"
+              ? window.innerWidth < 768
+                ? Name.split(" ")[0]
+                : Name
+              : "Foodie!"}
           </h1>
         </div>
       </div>
       <div className="flex items-center gap-3">
-        <h2 className="text-white font-medium">{formattedTime}</h2>
+        <h2 className={`text-white font-medium hidden md:block`}>
+          {formattedTime}
+        </h2>
         {isloggedIn === "true" && isAdmin === "false" ? (
           <>
             <Link to={"/cart"}>

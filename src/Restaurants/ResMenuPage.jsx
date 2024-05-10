@@ -11,8 +11,8 @@ const ResMenuPage = () => {
   return (
     <div className="min-h-screen">
       <NavBar />
-      <section className="w-full h-full flex justify-center">
-        <div className="w-[80%] px-3 py-16 h-full  space-y-5">
+      <section className="w-full h-full flex justify-center ">
+        <div className="w-[80%] px-3 py-16 h-full space-y-5 ">
           <ResCard resId={resId} />
           <ResMenu resId={resId} />
         </div>

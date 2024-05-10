@@ -63,10 +63,10 @@ const Signup = () => {
     return <Loader />;
   }
   return (
-    <div className=" h-screen overflow-y-hidden">
+    <div className="min-h-screen overflow-y-hidden">
       <NavBar />
-      <section className="flex w-full mt-24 h-full justify-center">
-        <Card className="w-1/3 border border-white h-fit py-4 shadow-[0px_2px_49px_2px_#2f855a] ">
+      <section className="flex w-full mt-16 md:mt-24  justify-center">
+        <Card className="w-[75%] md:w-1/3 border border-white h-fit py-4 shadow-[0px_2px_49px_2px_#2f855a] ">
           <CardHeader>
             <CardTitle className="text-center">Sign Up</CardTitle>
           </CardHeader>
@@ -74,7 +74,7 @@ const Signup = () => {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <div className="space-y-5">
-                  <div className="w-full flex items-center gap-3 ">
+                  <div className="w-full flex  items-center gap-3 ">
                     <div className="w-1/2">
                       <FormField
                         control={form.control}
@@ -116,7 +116,7 @@ const Signup = () => {
                       />
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="w-full flex  items-center gap-3">
                     <div className="w-1/2">
                       <FormField
                         control={form.control}
@@ -143,7 +143,9 @@ const Signup = () => {
                         name="confirmPassword"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Confirm Password:</FormLabel>
+                            <FormLabel className="text-nowrap">
+                              Confirm Password:
+                            </FormLabel>
                             <FormMessage />
                             <FormControl>
                               <Input
@@ -158,6 +160,7 @@ const Signup = () => {
                       />
                     </div>
                   </div>
+
                   <FormField
                     control={form.control}
                     name="phone"
@@ -176,7 +179,8 @@ const Signup = () => {
                       </FormItem>
                     )}
                   />
-                  <div className="flex items-center gap-4">
+
+                  <div className="w-full md:flex flex flex-col items-center gap-3">
                     <Button
                       type="submit"
                       className="bg-green-700"

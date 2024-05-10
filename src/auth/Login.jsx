@@ -75,10 +75,10 @@ const Login = () => {
   }
 
   return (
-    <div className=" h-screen overflow-y-hidden">
+    <div className="min-h-screen overflow-y-hidden">
       <NavBar />
-      <section className="flex w-full mt-24 h-full justify-center">
-        <Card className="w-1/3 border border-white h-fit py-4 shadow-[0px_2px_49px_2px_#2f855a] ">
+      <section className="flex w-full mt-24 h-full border justify-center">
+        <Card className="w-fit md:w-1/3 border border-white h-fit py-4 shadow-[0px_2px_49px_2px_#2f855a] ">
           <CardHeader>
             <CardTitle className="text-center">Login</CardTitle>
           </CardHeader>

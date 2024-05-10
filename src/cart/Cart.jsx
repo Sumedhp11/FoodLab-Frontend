@@ -168,8 +168,8 @@ const Cart = () => {
     <div className="min-h-screen">
       <NavBar />
       {cartItems?.length >= 1 ? (
-        <section className="py-4 flex justify-center space-x-10">
-          <div className="flex flex-col w-[60%] space-y-4 py-5 shadow-2xl rounded-lg h-fit">
+        <section className="py-4 flex md:flex-row flex-col justify-center md:space-x-10 border ">
+          <div className="flex flex-col w-full md:w-[60%] space-y-4 py-5  shadow-2xl rounded-lg h-fit">
             <div className="px-3">
               <h1 className="px-3 text-lg font-semibold">Checkout Form</h1>
             </div>
@@ -288,7 +288,7 @@ const Cart = () => {
             </div>
           </div>
 
-          <div className="flex-col px-3 py-3  w-[20%] space-y-5 h-fit rounded-md shadow-2xl">
+          <div className="flex-col px-3 py-3  w-full md:w-[20%] space-y-5 h-fit rounded-md shadow-2xl ">
             {isLoading ? (
               <Loader />
             ) : (
